@@ -9,10 +9,14 @@ export class CopierService {
     private destinationService: DestinationService,
   ) {}
 
-  copy(): void {
-    let char;
-    while ((char = this.sourceService.readChar()) !== '\n') {
-      this.destinationService.writeChar(char);
+  copyMultiple() {
+    const buffer = this.sourceService.readChars(5);
+    for (let i = 0; i < buffer.length; i++) {
+      if (buffer[i] === '\n') {
+        this.destinationService.writeChars(buffer.substring(0, i));
+        break;
+      }
     }
+    this.destinationService.writeChars(buffer.replace('\n', ''));
   }
 }
